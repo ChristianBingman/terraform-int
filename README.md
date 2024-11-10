@@ -2,19 +2,16 @@ Terraform Kubernetes Infra
 
 > Kubernetes resources defined as Terraform
 
-Transition List:
-- [x] Metrics Server
-- [x] Kube Prometheus Stack
-- [x] Metallb
-- [x] Cert Manager
-- [x] NFS Config
-- [x] Cloudflare Tunnel
-- [x] Pushgateway
-- [x] Registry
-- [x] Photoprism
-- [x] ELK
-  - [x] Helm Chart
-  - [x] Logstash
-  - [x] Filebeat Config
-- [x] Maintenance Site
-# terraform-int
+Deployed:
+-[x] metrics server
+-[x] cert manager
+-[x] longhorn
+-[x] nfs-subdir-external provisioner
+-[x] prometheus stack
+-[x] metallb
+-[x] eck
+-[x] github arc
+-[x] elasticsearch int
+-[x] nginx ingress
+-[x] argocd
+-[x] grafana dashboards
