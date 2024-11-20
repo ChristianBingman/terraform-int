@@ -43,3 +43,7 @@ variable "longhorn_smb_username" {
 variable "longhorn_smb_password" {
   type = string
 }
+
+variable "mosquitto_admin_login" {
+  type = string
+}

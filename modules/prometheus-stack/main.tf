@@ -34,7 +34,7 @@ resource "helm_release" "prometheus-stack" {
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
-                  storage: 10Gi
+                  storage: 15Gi
         additionalScrapeConfigs:
           - job_name: "netdata_all_hosts"
             scrape_interval: "15s"

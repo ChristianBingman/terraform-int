@@ -86,3 +86,8 @@ module "grafana-dashboards" {
 module "searxng" {
   source = "./modules/searxng"
 }
+
+module "mosquitto" {
+  source = "./modules/mosquitto"
+  admin_login = var.mosquitto_admin_login
+}
