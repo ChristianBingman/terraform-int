@@ -82,3 +82,7 @@ module "argocd" {
 module "grafana-dashboards" {
   source = "./modules/grafana-dashboards"
 }
+
+module "searxng" {
+  source = "./modules/searxng"
+}
