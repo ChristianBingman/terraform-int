@@ -72,3 +72,7 @@ variable "mqtt_admin_user" {
 variable "mqtt_admin_pass" {
   type = string
 }
+
+variable "searxng_public_auth_htpasswd" {
+  type = string
+}

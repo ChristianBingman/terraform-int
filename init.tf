@@ -85,6 +85,7 @@ module "grafana-dashboards" {
 
 module "searxng" {
   source = "./modules/searxng"
+  basic_auth = var.searxng_public_auth_htpasswd
 }
 
 module "mosquitto" {
@@ -100,4 +101,9 @@ module "frigate" {
   mqtt_host = var.mqtt_host
   mqtt_user = var.mqtt_admin_user
   mqtt_pass = var.mqtt_admin_pass
+}
+
+module "cloudflare-tunnel" {
+  source = "./modules/cloudflare-tunnel"
+  credentials = var.cloudflare-tunnel_credentials
 }
