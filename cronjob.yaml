@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: snapshot-grabber
+  namespace: frigate
+spec:
+  schedule: "0,30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          volumes:
+            - name: snapshots
+              persistentVolumeClaim:
+                claimName: snapshots
+          containers:
+            - name: grabber
+              image: curlimages/curl:8.11.0
+              command: 
+                - /bin/sh
+                - -c
+                - curl -v "http://frigate:5000/api/plant_cam/latest.jpg" -o "/snapshots/$(date +%s).jpg"
+              volumeMounts:
+                - mountPath: "/snapshots"
+                  name: snapshots
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: snapshots
+  namespace: frigate
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: "nfs-client"
+  resources:
+    requests:
+      storage: 20Gi

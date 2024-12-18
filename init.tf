@@ -91,3 +91,13 @@ module "mosquitto" {
   source = "./modules/mosquitto"
   admin_login = var.mosquitto_admin_login
 }
+
+module "frigate" {
+  source = "./modules/frigate"
+  tapo_cam_ip = var.frigate_tapo_cam_ip
+  tapo_cam_username = var.frigate_tapo_cam_username
+  tapo_cam_password = var.frigate_tapo_cam_password
+  mqtt_host = var.mqtt_host
+  mqtt_user = var.mqtt_admin_user
+  mqtt_pass = var.mqtt_admin_pass
+}
