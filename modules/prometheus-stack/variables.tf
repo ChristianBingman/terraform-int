@@ -24,3 +24,11 @@ variable "smtp_from_name" {
   type = string
   default = "Grafana Alerts"
 }
+
+variable "oidc_client_id" {
+  type = string
+}
+
+variable "oidc_client_secret" {
+  type = string
+}

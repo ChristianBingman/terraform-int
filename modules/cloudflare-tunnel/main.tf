@@ -7,6 +7,29 @@ resource "kubernetes_namespace" "cloudflare-tunnel" {
   }
 }
 
+resource "kubernetes_service" "metrics" {
+  metadata {
+    name = "cloudflared-tunnel-metrics"
+    namespace = "cloudflare-tunnel"
+    annotations = {
+      "prometheus.io/port" = "2000"
+      "prometheus.io/scrape" = true
+    }
+  }
+  spec {
+    type = "ClusterIP"
+    selector = {
+      app = "cloudflared"
+    }
+    port {
+      name = "metrics"
+      port = 2000
+      target_port = "metrics"
+      protocol = "TCP"
+    }
+  }
+}
+
 resource "kubernetes_deployment" "cloudflared" {
   metadata {
     name = "cloudflared"
@@ -38,6 +61,10 @@ resource "kubernetes_deployment" "cloudflared" {
             "/etc/cloudflared/config/config.yaml",
             "run"
           ]
+          port {
+            name = "metrics"
+            container_port = 2000
+          }
           liveness_probe {
             http_get {
               path = "/ready"
@@ -111,6 +138,14 @@ resource "kubernetes_config_map" "cloudflared" {
         service: https://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local:443
         originRequest:
           noTLSVerify: true
+      - hostname: auth.christianbingman.com
+        service: https://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local:443
+        originRequest:
+          noTLSVerify: true
+      - hostname: www.christianbingman.com
+        service: http://10.2.0.26:80
+      - hostname: christianbingman.com
+        service: http://10.2.0.26:80
       # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
       - service: http_status:404
     EOT
@@ -126,4 +161,32 @@ resource "kubernetes_secret" "tunnel-credentials" {
     "credentials.json" = var.credentials
   }
   type = "Opaque"
+}
+
+resource "kubernetes_manifest" "service-monitor" {
+  manifest = {
+    apiVersion = "monitoring.coreos.com/v1"
+    kind = "ServiceMonitor"
+    metadata = {
+      name = "cloudflare-metrics"
+      namespace = "cloudflare-tunnel"
+    }
+    spec = {
+      endpoints = [
+        {
+          interval = "30s"
+          port = "metrics"
+          path = "/metrics"
+        }
+      ]
+      namespaceSelector = {
+        matchNames = [ "cloudflare-tunnel" ]
+      }
+      selector = {
+        matchLabels = {
+          app = "cloudflared"
+        }
+      }
+    }
+  }
 }

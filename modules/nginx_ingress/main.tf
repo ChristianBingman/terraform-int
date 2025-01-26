@@ -8,6 +8,15 @@ resource "helm_release" "nginx-ingress" {
   values = [
     <<-EOT
     controller:
+      metrics:
+        enabled: true
+        service:
+          annotations:
+            prometheus.io/port: "10254"
+            prometheus.io/scrape: "true"
+        serviceMonitor:
+          enabled: true
+      allowSnippetAnnotations: true
       ingressClassResource:
         default: true
       service:

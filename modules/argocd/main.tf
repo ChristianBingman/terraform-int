@@ -12,6 +12,9 @@ resource "helm_release" "argocd" {
       domain: argocd.int.christianbingman.com
 
     configs:
+      secret:
+        extra:
+          dex.authentik.clientSecret: ${var.dex_client_secret}
       params:
         server.insecure: true
 

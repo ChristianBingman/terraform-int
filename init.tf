@@ -49,6 +49,8 @@ module "prometheus-stack" {
   smtp_user = var.smtp_user
   smtp_pass = var.smtp_pass
   depends_on = [module.longhorn]
+  oidc_client_id = var.grafana_oidc_client_id
+  oidc_client_secret = var.grafana_oidc_client_secret
 }
 
 module "metallb" {
@@ -77,6 +79,7 @@ module "nginx-ingress" {
 
 module "argocd" {
   source = "./modules/argocd"
+  dex_client_secret = var.argocd_dex_client_secret
 }
 
 module "grafana-dashboards" {
@@ -106,4 +109,10 @@ module "frigate" {
 module "cloudflare-tunnel" {
   source = "./modules/cloudflare-tunnel"
   credentials = var.cloudflare-tunnel_credentials
+}
+
+module "authentik" {
+  source = "./modules/authentik"
+  pg_pass = var.authentik_postgres_pw
+  authentik_secret = var.authentik_secret
 }

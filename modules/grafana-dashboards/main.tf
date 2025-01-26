@@ -12,6 +12,6 @@ resource "kubernetes_config_map" "grafana-dashboards" {
     }
   }
   data = {
-    "dashboard.json" = file("${path.module}/${each.value}")
+    "${each.key}" = file("${path.module}/${each.value}")
   }
 }

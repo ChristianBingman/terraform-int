@@ -7,6 +7,11 @@ resource "helm_release" "frigate" {
 
   values = [
     <<-EOT
+    service:
+      type: LoadBalancer
+      annotations:
+        metallb.universe.tf/loadBalancerIPs: "10.2.0.45"
+        metallb.universe.tf/ip-allocated-from-pool: "default-pool"
     snapshots:
       enabled: false
     record:
@@ -18,6 +23,7 @@ resource "helm_release" "frigate" {
     persistence:
       config:
         enabled: true
+        size: 200Mi
       media:
         enabled: true
         size: 20Gi

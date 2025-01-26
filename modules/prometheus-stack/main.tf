@@ -88,6 +88,21 @@ resource "helm_release" "prometheus-stack" {
           password: "${var.smtp_pass}"
           from_address: "${var.smtp_from_address}"
           from_name: "${var.smtp_from_name}"
+        server:
+          root_url: "https://grafana.int.christianbingman.com"
+        auth:
+          signout_redirect_url: https://auth.christianbingman.com/application/o/grafana/end-session/
+          oauth_auto_login: true
+        "auth.generic_oauth":
+          name: "authentik"
+          enabled: true
+          client_id: ${var.oidc_client_id}
+          client_secret: ${var.oidc_client_secret}
+          scopes: "openid email profile"
+          auth_url: "https://auth.christianbingman.com/application/o/authorize/"
+          token_url: "https://auth.christianbingman.com/application/o/token/"
+          api_url: "https://auth.christianbingman.com/application/o/userinfo/"
+          role_attribute_path: "contains(groups, 'Grafana Admins') && 'Admin' || contains(groups, 'Grafana Editors') && 'Editor' || 'Viewer'"
       adminPassword: "${var.admin_password}"
     EOT
   ]

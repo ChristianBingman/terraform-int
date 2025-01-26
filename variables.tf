@@ -76,3 +76,23 @@ variable "mqtt_admin_pass" {
 variable "searxng_public_auth_htpasswd" {
   type = string
 }
+
+variable "authentik_postgres_pw" {
+  type = string
+}
+
+variable "authentik_secret" {
+  type = string
+}
+
+variable "grafana_oidc_client_id" {
+  type = string
+}
+
+variable "grafana_oidc_client_secret" {
+  type = string
+}
+
+variable "argocd_dex_client_secret" {
+  type = string
+}
