@@ -32,3 +32,7 @@ variable "oidc_client_id" {
 variable "oidc_client_secret" {
   type = string
 }
+
+variable "elasticsearch_auth_pass" {
+  type = string
+}

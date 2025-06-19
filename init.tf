@@ -51,6 +51,7 @@ module "prometheus-stack" {
   depends_on = [module.longhorn]
   oidc_client_id = var.grafana_oidc_client_id
   oidc_client_secret = var.grafana_oidc_client_secret
+  elasticsearch_auth_pass = var.elasticsearch_auth_pass
 }
 
 module "metallb" {
@@ -116,3 +117,25 @@ module "authentik" {
   pg_pass = var.authentik_postgres_pw
   authentik_secret = var.authentik_secret
 }
+
+module "photoprism" {
+  source = "./modules/photoprism"
+}
+
+module "cnpg" {
+  source = "./modules/cnpg"
+  #maybe_user = var.pg_global_maybe_user
+  #maybe_user_pass = var.pg_global_maybe_user_pass
+}
+
+#module "maybe" {
+#  source = "./modules/maybe"
+#  pg_user = var.pg_global_maybe_user
+#  pg_pass = var.pg_global_maybe_user_pass
+#  pg_db = "maybedb"
+#  secret_key = var.maybe_secret_key
+#}
+
+#module "timetagger" {
+#  source = "./modules/timetagger"
+#}

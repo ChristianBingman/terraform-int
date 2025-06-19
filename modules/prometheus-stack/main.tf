@@ -62,6 +62,31 @@ resource "helm_release" "prometheus-stack" {
             - grafana.int.christianbingman.com
 
       assertNoLeakedSecrets: false
+      additionalDataSources:
+      - name: elasticsearch-syslog-*
+        type: elasticsearch
+        access: proxy
+        basicAuth: true
+        basicAuthUser: elastic
+        secureJsonData:
+          basicAuthPassword: "${var.elasticsearch_auth_pass}"
+        url: http://elasticsearch-int-es-http.elasticsearch-int.svc.cluster.local:9200
+        jsonData:
+          index: '[syslog-*]'
+          interval: Daily
+          timeField: '@timestamp'
+      - name: elasticsearch-kubernetes-*
+        type: elasticsearch
+        access: proxy
+        basicAuth: true
+        basicAuthUser: elastic
+        secureJsonData:
+          basicAuthPassword: "${var.elasticsearch_auth_pass}"
+        url: http://elasticsearch-int-es-http.elasticsearch-int.svc.cluster.local:9200
+        jsonData:
+          index: '[kubernetes-*]'
+          interval: Daily
+          timeField: '@timestamp'
       sidecar:
         alerts:
           enabled: true

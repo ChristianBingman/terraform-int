@@ -96,3 +96,19 @@ variable "grafana_oidc_client_secret" {
 variable "argocd_dex_client_secret" {
   type = string
 }
+
+variable "pg_global_maybe_user" {
+  type = string
+}
+
+variable "pg_global_maybe_user_pass" {
+  type = string
+}
+
+variable "maybe_secret_key" {
+  type = string
+}
+
+variable "elasticsearch_auth_pass" {
+  type = string
+}
