@@ -162,3 +162,9 @@ module "immich" {
   immich_user = var.pg_global_immich_user
   immich_user_pass = var.pg_global_immich_user_pass
 }
+
+module "ddns-updater" {
+  source             = "./modules/ddns-updater"
+  cloudflare_api_key = var.ddns_updater_cloudflare_api_key
+  cloudflare_zone_id = var.ddns_updater_cloudflare_zone_id
+}

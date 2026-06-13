@@ -146,3 +146,12 @@ variable "ta_username" {
 variable "ta_password" {
   type = string
 }
+
+variable "ddns_updater_cloudflare_api_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "ddns_updater_cloudflare_zone_id" {
+  type = string
+}
