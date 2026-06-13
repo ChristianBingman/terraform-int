@@ -22,6 +22,7 @@ resource "kubernetes_secret" "ddns-updater-config" {
           ip_version       = "ipv4"
           token            = var.cloudflare_api_key
           proxied          = false
+          ttl              = 120
         },
         {
           provider         = "cloudflare"
@@ -30,6 +31,7 @@ resource "kubernetes_secret" "ddns-updater-config" {
           ip_version       = "ipv6"
           token            = var.cloudflare_api_key
           proxied          = false
+          ttl              = 120
         }
       ]
     })
