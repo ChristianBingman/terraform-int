@@ -100,7 +100,7 @@ resource "kubernetes_service" "photoprism" {
     name = "photoprism-frontend"
     namespace = var.namespace
     annotations = {
-      "metallb.universe.tf/ip-allocated-from-pool" = "default-pool"
+      "metallb.io/ip-allocated-from-pool" = "default-pool"
     }
   }
   spec {

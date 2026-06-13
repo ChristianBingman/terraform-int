@@ -13,8 +13,8 @@ resource "helm_release" "mosquitto" {
     service:
       type: LoadBalancer
       annotations:
-        "metallb.universe.tf/loadBalancerIPs": "10.2.0.43"
-        "metallb.universe.tf/ip-allocated-from-pool": "default-pool"
+        "metallb.io/loadBalancerIPs": "10.2.0.43"
+        "metallb.io/ip-allocated-from-pool": "default-pool"
     EOT
   ]
 }

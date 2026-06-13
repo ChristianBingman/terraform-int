@@ -19,6 +19,11 @@ resource "helm_release" "longhorn" {
     name = "defaultSettings.backupTargetCredentialSecret"
     value = (var.smb_username == "" ? "" : "cifs-secret")
   }
+
+  set {
+    name = "defaultSettings.nodeDownPodDeletionPolicy"
+    value = "delete-both-statefulset-and-deployment-pod"
+  }
   
   set {
     name = "metrics.serviceMonitor.enabled"

@@ -10,8 +10,8 @@ resource "helm_release" "frigate" {
     service:
       type: LoadBalancer
       annotations:
-        metallb.universe.tf/loadBalancerIPs: "10.2.0.45"
-        metallb.universe.tf/ip-allocated-from-pool: "default-pool"
+        metallb.io/loadBalancerIPs: "10.2.0.45"
+        metallb.io/ip-allocated-from-pool: "default-pool"
     snapshots:
       enabled: false
     record:

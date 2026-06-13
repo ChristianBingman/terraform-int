@@ -4,7 +4,7 @@ resource "helm_release" "cert-manager" {
   chart = "cert-manager"
   namespace = "cert-manager"
   create_namespace = true
-  version = "v1.18.1"
+  version = "v1.20.0"
 
   set {
     name = "crds.enabled"
@@ -38,6 +38,28 @@ resource "helm_release" "cert-manager" {
     name = "ingressShim.defaultIssuerKind"
     value = "ClusterIssuer"
   }
+
+  values = [
+    <<-EOT
+    resources:
+      limits:
+        memory: 64Mi
+      requests:
+        memory: 32Mi
+    cainjector:
+      resources:
+        limits:
+          memory: 64Mi
+        requests:
+          memory: 32Mi
+    webhook:
+      resources:
+        limits:
+          memory: 64Mi
+        requests:
+          memory: 32Mi
+    EOT
+  ]
 }
 
 resource "kubernetes_manifest" "le-christianbingman-com" {

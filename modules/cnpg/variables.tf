@@ -1,6 +1,6 @@
-#variable "maybe_user" {
-#  type = string
-#}
-#variable "maybe_user_pass" {
-#  type = string
-#}
+variable "authentik_user" {
+  type = string
+}
+variable "authentik_user_pass" {
+  type = string
+}

@@ -22,8 +22,8 @@ resource "helm_release" "nginx-ingress" {
       service:
         type: "LoadBalancer"
         annotations:
-          "metallb.universe.tf/loadBalancerIPs": ${var.metallb_ip}
-          "metallb.universe.tf/ip-allocated-from-pool": "default-pool"
+          "metallb.io/loadBalancerIPs": ${var.metallb_ip}
+          "metallb.io/ip-allocated-from-pool": "default-pool"
     EOT
   ]
 }

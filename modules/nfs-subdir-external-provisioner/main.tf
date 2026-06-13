@@ -11,6 +11,16 @@ resource "helm_release" "nfs-dynamic-provisioner" {
   namespace = var.namespace
 
   set {
+    name = "resources.limits.memory"
+    value = "64Mi"
+  }
+
+  set {
+    name = "resources.requests.memory"
+    value = "64Mi"
+  }
+
+  set {
     name = "nfs.path"
     value = "/export/Kubernetes"
   }

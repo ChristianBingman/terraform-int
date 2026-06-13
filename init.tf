@@ -68,10 +68,10 @@ module "github-arc" {
   github_pat = var.github_pat
 }
 
-module "elasticsearch-int" {
-  source = "./modules/elasticsearch-int"
-  depends_on = [module.eck-operator, module.nfs-subdir]
-}
+#module "elasticsearch-int" {
+#  source = "./modules/elasticsearch-int"
+#  depends_on = [module.eck-operator, module.nfs-subdir]
+#}
 
 module "nginx-ingress" {
   source = "./modules/nginx_ingress"
@@ -90,22 +90,28 @@ module "grafana-dashboards" {
 module "searxng" {
   source = "./modules/searxng"
   basic_auth = var.searxng_public_auth_htpasswd
+  wireguard_preshared_key = var.searxng_wireguard_preshared_key
+  wireguard_addresses = var.searxng_wireguard_addresses
+  wireguard_private_key = var.searxng_wireguard_private_key
+  wireguard_provider = var.searxng_wireguard_provider
+  wireguard_endpoint_port = var.searxng_wireguard_endpoint_port
+  wireguard_server_region = var.searxng_wireguard_server_region
 }
 
-module "mosquitto" {
-  source = "./modules/mosquitto"
-  admin_login = var.mosquitto_admin_login
-}
+#module "mosquitto" {
+#  source = "./modules/mosquitto"
+#  admin_login = var.mosquitto_admin_login
+#}
 
-module "frigate" {
-  source = "./modules/frigate"
-  tapo_cam_ip = var.frigate_tapo_cam_ip
-  tapo_cam_username = var.frigate_tapo_cam_username
-  tapo_cam_password = var.frigate_tapo_cam_password
-  mqtt_host = var.mqtt_host
-  mqtt_user = var.mqtt_admin_user
-  mqtt_pass = var.mqtt_admin_pass
-}
+#module "frigate" {
+#  source = "./modules/frigate"
+#  tapo_cam_ip = var.frigate_tapo_cam_ip
+#  tapo_cam_username = var.frigate_tapo_cam_username
+#  tapo_cam_password = var.frigate_tapo_cam_password
+#  mqtt_host = var.mqtt_host
+#  mqtt_user = var.mqtt_admin_user
+#  mqtt_pass = var.mqtt_admin_pass
+#}
 
 module "cloudflare-tunnel" {
   source = "./modules/cloudflare-tunnel"
@@ -114,18 +120,18 @@ module "cloudflare-tunnel" {
 
 module "authentik" {
   source = "./modules/authentik"
-  pg_pass = var.authentik_postgres_pw
+  pg_pass = var.pg_global_authentik_user_pass
   authentik_secret = var.authentik_secret
 }
 
-module "photoprism" {
-  source = "./modules/photoprism"
-}
+#module "photoprism" {
+#  source = "./modules/photoprism"
+#}
 
 module "cnpg" {
   source = "./modules/cnpg"
-  #maybe_user = var.pg_global_maybe_user
-  #maybe_user_pass = var.pg_global_maybe_user_pass
+  authentik_user = var.pg_global_authentik_user
+  authentik_user_pass = var.pg_global_authentik_user_pass
 }
 
 #module "maybe" {
@@ -139,3 +145,20 @@ module "cnpg" {
 #module "timetagger" {
 #  source = "./modules/timetagger"
 #}
+
+module "tubearchivist" {
+  source = "./modules/tubearchivist"
+  elastic_password = var.elasticsearch_auth_pass
+  ta_username = var.ta_username
+  ta_password = var.ta_password
+}
+
+module "registry" {
+  source = "./modules/registry"
+}
+
+module "immich" {
+  source = "./modules/immich"
+  immich_user = var.pg_global_immich_user
+  immich_user_pass = var.pg_global_immich_user_pass
+}

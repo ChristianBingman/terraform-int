@@ -4,5 +4,5 @@ resource "helm_release" "eck-operator" {
   chart = "eck-operator"
   namespace = var.namespace
   create_namespace = true
-  version = "2.13.0"
+  version = "3.3.1"
 }

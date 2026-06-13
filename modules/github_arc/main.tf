@@ -1,5 +1,5 @@
 locals {
-  runner_version = "2.324.0"
+  runner_version = "2.331.0"
 }
 
 resource "helm_release" "github-arc" {
@@ -9,6 +9,15 @@ resource "helm_release" "github-arc" {
   namespace = var.controller_namespace
   create_namespace = true
   version = "0.11.0"
+  values = [
+    <<-EOT
+    resources:
+      requests:
+        memory: 64Mi
+      limits:
+        memory: 128Mi
+    EOT
+  ]
 }
 
 resource "helm_release" "christianbingman-com-runners" {
@@ -29,6 +38,15 @@ resource "helm_release" "christianbingman-com-runners" {
   }
   values = [
     <<-EOT
+    listenerTemplate:
+      spec:
+        containers:
+          - name: listener
+            resources:
+              requests:
+                memory: 64Mi
+              limits:
+                memory: 128Mi
     template:
       spec:
         initContainers:
@@ -98,6 +116,15 @@ resource "helm_release" "anki-sync-server-runners" {
   }
   values = [
     <<-EOT
+    listenerTemplate:
+      spec:
+        containers:
+          - name: listener
+            resources:
+              requests:
+                memory: 64Mi
+              limits:
+                memory: 128Mi
     template:
       spec:
         initContainers:
@@ -149,9 +176,9 @@ resource "helm_release" "anki-sync-server-runners" {
   ]
 }
 
-resource "helm_release" "private-finance-runners" {
+resource "helm_release" "private-balance-runners" {
   depends_on = [helm_release.github-arc]
-  name = "private-finance-runners"
+  name = "private-balance-runners"
   repository = "oci://ghcr.io/actions/actions-runner-controller-charts/"
   chart = "gha-runner-scale-set"
   namespace = var.runner_namespace
@@ -159,7 +186,7 @@ resource "helm_release" "private-finance-runners" {
   version = "0.11.0"
   set {
     name = "githubConfigUrl"
-    value = "https://github.com/ChristianBingman/PrivateFinance"
+    value = "https://github.com/ChristianBingman/PrivateBalance"
   }
   set {
     name = "githubConfigSecret.github_token"
@@ -167,6 +194,15 @@ resource "helm_release" "private-finance-runners" {
   }
   values = [
     <<-EOT
+    listenerTemplate:
+      spec:
+        containers:
+          - name: listener
+            resources:
+              requests:
+                memory: 64Mi
+              limits:
+                memory: 128Mi
     template:
       spec:
         initContainers:

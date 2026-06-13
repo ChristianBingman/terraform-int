@@ -97,11 +97,19 @@ variable "argocd_dex_client_secret" {
   type = string
 }
 
-variable "pg_global_maybe_user" {
+variable "pg_global_authentik_user" {
   type = string
 }
 
-variable "pg_global_maybe_user_pass" {
+variable "pg_global_authentik_user_pass" {
+  type = string
+}
+
+variable "pg_global_immich_user" {
+  type = string
+}
+
+variable "pg_global_immich_user_pass" {
   type = string
 }
 
@@ -110,5 +118,31 @@ variable "maybe_secret_key" {
 }
 
 variable "elasticsearch_auth_pass" {
+  type = string
+}
+
+variable "searxng_wireguard_preshared_key" {
+  type = string
+}
+variable "searxng_wireguard_addresses" {
+  type = string
+}
+variable "searxng_wireguard_private_key" {
+  type = string
+}
+variable "searxng_wireguard_provider" {
+  type = string
+}
+variable "searxng_wireguard_endpoint_port" {
+  type = number
+}
+variable "searxng_wireguard_server_region" {
+  type = string
+}
+
+variable "ta_username" {
+  type = string
+}
+variable "ta_password" {
   type = string
 }

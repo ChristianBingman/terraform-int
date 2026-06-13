@@ -55,6 +55,14 @@ resource "kubernetes_deployment" "cloudflared" {
         container {
           name = "cloudflared"
           image = "cloudflare/cloudflared:2024.6.0"
+          resources {
+            limits = {
+              memory = "128Mi"
+            }
+            requests = {
+              memory = "32Mi"
+            }
+          }
           args = [
             "tunnel",
             "--config",
@@ -143,9 +151,13 @@ resource "kubernetes_config_map" "cloudflared" {
         originRequest:
           noTLSVerify: true
       - hostname: www.christianbingman.com
-        service: http://10.2.0.26:80
+        service: https://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local:443
+        originRequest:
+          noTLSVerify: true
       - hostname: christianbingman.com
-        service: http://10.2.0.26:80
+        service: https://nginx-ingress-ingress-nginx-controller.nginx-ingress.svc.cluster.local:443
+        originRequest:
+          noTLSVerify: true
       # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
       - service: http_status:404
     EOT

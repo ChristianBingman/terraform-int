@@ -4,6 +4,23 @@ resource "helm_release" "metallb" {
   chart = "metallb"
   namespace = "metallb"
   create_namespace = true
+  version = "0.15.3"
+  values = [
+    <<-EOT
+    controller:
+      resources:
+        limits:
+          memory: 128Mi
+        requests:
+          memory: 64Mi
+    speaker:
+      resources:
+        limits:
+          memory: 256Mi
+        requests:
+          memory: 128Mi
+    EOT
+  ]
 }
 
 resource "kubernetes_manifest" "default-advertisement" {

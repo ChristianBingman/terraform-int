@@ -2,6 +2,7 @@ resource "helm_release" "authentik" {
   name = "authentik"
   repository = "https://charts.goauthentik.io"
   chart = "authentik"
+  version = "2026.2.1"
   namespace = var.namespace
   create_namespace = true
   values = [
@@ -13,6 +14,7 @@ resource "helm_release" "authentik" {
       error_reporting:
         enabled: false
       postgresql:
+        host: default-cluster-rw.pg-global.svc.cluster.local
         password: ${var.pg_pass}
 
     server:
@@ -26,14 +28,33 @@ resource "helm_release" "authentik" {
           - secretName: authentik-https
             hosts:
               - auth.christianbingman.com
+      resources:
+        limits:
+          memory: 1Gi
+        requests:
+          memory: 512Mi
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
 
-    postgresql:
-      enabled: true
-      auth:
-        password: ${var.pg_pass}
+    worker:
+      env:
+      - name: "AUTHENTIK_WORKER__THREADS"
+        value: "4"
+      resources:
+        limits:
+          memory: 3Gi
+        requests:
+          memory: 2Gi
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
 
-    redis:
-      enabled: true
+    prometheus:
+      rules:
+        enabled: true
     EOT
   ]
 }
