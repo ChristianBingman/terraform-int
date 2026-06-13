@@ -16,24 +16,20 @@ resource "kubernetes_secret" "ddns-updater-config" {
     "config.json" = jsonencode({
       settings = [
         {
-          provider   = "cloudflare"
-          zone_id    = var.cloudflare_zone_id
-          domain     = "christianbingman.com"
-          host       = "vpn"
-          ip_version = "ipv4"
-          ipv6_suffix = ""
-          token      = var.cloudflare_api_key
-          proxied    = false
+          provider         = "cloudflare"
+          zone_identifier  = var.cloudflare_zone_id
+          domain           = "vpn.christianbingman.com"
+          ip_version       = "ipv4"
+          token            = var.cloudflare_api_key
+          proxied          = false
         },
         {
-          provider   = "cloudflare"
-          zone_id    = var.cloudflare_zone_id
-          domain     = "christianbingman.com"
-          host       = "vpn"
-          ip_version = "ipv6"
-          ipv6_suffix = ""
-          token      = var.cloudflare_api_key
-          proxied    = false
+          provider         = "cloudflare"
+          zone_identifier  = var.cloudflare_zone_id
+          domain           = "vpn.christianbingman.com"
+          ip_version       = "ipv6"
+          token            = var.cloudflare_api_key
+          proxied          = false
         }
       ]
     })
