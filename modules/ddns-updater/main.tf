@@ -23,16 +23,16 @@ resource "kubernetes_secret" "ddns-updater-config" {
           token            = var.cloudflare_api_key
           proxied          = false
           ttl              = 120
-        },
-        {
-          provider         = "cloudflare"
-          zone_identifier  = var.cloudflare_zone_id
-          domain           = "vpn.christianbingman.com"
-          ip_version       = "ipv6"
-          token            = var.cloudflare_api_key
-          proxied          = false
-          ttl              = 120
         }
+        #        {
+        #          provider         = "cloudflare"
+        #          zone_identifier  = var.cloudflare_zone_id
+        #          domain           = "vpn.christianbingman.com"
+        #          ip_version       = "ipv6"
+        #          token            = var.cloudflare_api_key
+        #          proxied          = false
+        #          ttl              = 120
+        #        }
       ]
     })
   }
@@ -98,6 +98,10 @@ resource "kubernetes_deployment" "ddns-updater" {
           env {
             name  = "LISTENING_ADDRESS"
             value = ":8000"
+          }
+          env {
+            name  = "HEALTH_SERVER_ADDRESS"
+            value = "0.0.0.0:9999"
           }
           port {
             name           = "http"
