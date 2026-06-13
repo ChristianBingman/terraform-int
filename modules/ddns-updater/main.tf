@@ -71,7 +71,7 @@ resource "kubernetes_deployment" "ddns-updater" {
         }
         container {
           name  = "ddns-updater"
-          image = "qmcgaw/ddns-updater:v2"
+          image = "qmcgaw/ddns-updater:v2.10.0"
           resources {
             limits = {
               memory = "64Mi"
@@ -80,10 +80,6 @@ resource "kubernetes_deployment" "ddns-updater" {
               memory = "16Mi"
               cpu    = "10m"
             }
-          }
-          env {
-            name  = "CONFIG"
-            value = "/config/config.json"
           }
           env {
             name  = "PERIOD"
@@ -111,7 +107,8 @@ resource "kubernetes_deployment" "ddns-updater" {
           }
           volume_mount {
             name       = "config"
-            mount_path = "/config"
+            mount_path = "/updater/data/config.json"
+            sub_path   = "config.json"
             read_only  = true
           }
           liveness_probe {
